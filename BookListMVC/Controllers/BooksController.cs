@@ -44,7 +44,6 @@ namespace BookListMVC.Controllers
 
             return Json(new { success = true, message = "Delete successful" });
         }
-
         #endregion
     }
 }

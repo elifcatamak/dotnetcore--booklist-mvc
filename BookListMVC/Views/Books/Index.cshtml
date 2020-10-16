@@ -1,5 +1,33 @@
-﻿@{
-    ViewData["Title"] = "Index";
-}
+﻿<br />
 
-<h1>Index</h1>
+<div class="container row p-0 m-0">
+    <div class="col-6">
+        <h2 class="text-info">Book List</h2>
+    </div>
+
+    <div class="col-3 offset-3">
+        <!-- Upsert action is also in Books controller (so is Index), it is optional to specify asp-controller here -->
+        <a asp-action="Upsert" asp-controller="Books" class="btn btn-info form-control text-white">
+            Add New Book
+        </a>
+    </div>
+
+    <div class="col-12 border p-3">
+        <!-- Id is the same as we used in bookList.js -->
+        <table id="DT_load" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <!-- Last one is for 2 buttons, edit and delete -->
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Scripts{ 
+<script src="~/js/bookList.js"></script>
+}
