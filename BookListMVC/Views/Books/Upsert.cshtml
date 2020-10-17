@@ -1,0 +1,74 @@
+﻿<!-- We are passing a Book object to view, that will be the model -->
+@model BookListMVC.Models.Book
+
+<br />
+
+<h2 class="text-info">@(Model.Id == 0 ? "Create" : "Edit") Book</h2>
+
+<br />
+
+<div class="border container" style="padding:30px;">
+    <!-- Whenever user clicks submit, it will go to the post action method for Upsert -->
+    <!-- Since it is the same action method, defining asp-action is optional -->
+    <form method="post" asp-action="Upsert">
+        <!-- We need to save the Id value here or Id will be default value (0) when we go to server side -->
+        <!-- In order to update the Book, we need the Id value on the server side -->
+        @if (Model.Id != 0)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Name"></label>
+            </div>
+
+            <div class="col-6">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Author"></label>
+            </div>
+
+            <div class="col-6">
+                <input asp-for="Author" class="form-control" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="ISBN"></label>
+            </div>
+
+            <div class="col-6">
+                <input asp-for="ISBN" class="form-control" />
+                <span asp-validation-for="ISBN" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-3 offset-3">
+                <button type="submit" class="btn btn-primary form-control">
+                    @(Model.Id == 0 ? "Create" : "Update")
+                </button>
+            </div>
+
+            <div class="col-3">
+                <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- This does not let user send the form if it is not valid -->
+<!-- Client side validation -->
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

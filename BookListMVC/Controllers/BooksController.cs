@@ -12,6 +12,10 @@ namespace BookListMVC.Controllers
     {
         private readonly ApplicationDbContext _db;
 
+        // On post, we don't have to retrieve it (it will automatically be binded)
+        [BindProperty]
+        public Book Book { get; set; }
+
         public BooksController(ApplicationDbContext db)
         {
             _db = db;
@@ -20,6 +24,28 @@ namespace BookListMVC.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        // Id is needed for edit operation so it's nullable
+        public IActionResult Upsert(int? id)
+        {
+            Book = new Book();
+
+            if(id == null)
+            {
+                // For create
+                return View(Book);
+            }
+
+            // For update
+            Book = _db.Books.FirstOrDefault(b => b.Id == id);
+
+            if(Book == null)
+            {
+                return NotFound();
+            }
+
+            return View(Book);
         }
 
         #region API Calls
