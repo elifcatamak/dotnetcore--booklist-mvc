@@ -48,6 +48,33 @@ namespace BookListMVC.Controllers
             return View(Book);
         }
 
+        // With post methods we use ValidateAntiForgeryToken to use the built-in security to prevent some attacks
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Upsert()
+        {
+            // First thing we should check is if the model state is valid or not
+            if (ModelState.IsValid)
+            {
+                if(Book.Id == 0)
+                {
+                    // Create
+                    _db.Books.Add(Book);
+                }
+                else
+                {
+                    // Update
+                    _db.Books.Update(Book);
+                }
+
+                _db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(Book);
+        }
+
         #region API Calls
         [HttpGet]
         public async Task<IActionResult> GetAll()
